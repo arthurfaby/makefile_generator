@@ -20,14 +20,20 @@ echo "# Makefile generate by afaby" > Makefile
 echo "" >> Makefile
 echo "# Name of the executable" >> Makefile
 echo "NAME	=	${NAME}" >> Makefile
-echo "" >> Makefile
-echo "# Path of the libft" >> Makefile
-echo "LIBFT_DIR	=	${LIBFT_DIR}" >> Makefile
-echo "LIBFT		=	-I \$(LIBFT_DIR) -L \$(LIBFT_DIR) -lft" >> Makefile
-echo "" >> Makefile
-echo "# Minilibx use" >> Makefile
-echo "MLX_DIR	=	${MLX_DIR}" >> Makefile
-echo "MLX		=	-I \$(MLX_DIR) -L \$(MLX_DIR) -lmlx -lXext -lX11 -lm" >> Makefile
+if [ ! -z ${LIBFT_DIR} ]
+then
+	echo "" >> Makefile
+	echo "# Path of the libft" >> Makefile
+	echo "LIBFT_DIR	=	${LIBFT_DIR}" >> Makefile
+	echo "LIBFT		=	-I \$(LIBFT_DIR) -L \$(LIBFT_DIR) -lft" >> Makefile
+fi
+if [ ! -z ${MLX_DIR} ]
+then
+	echo "" >> Makefile
+	echo "# Minilibx use" >> Makefile
+	echo "MLX_DIR	=	${MLX_DIR}" >> Makefile
+	echo "MLX		=	-I \$(MLX_DIR) -L \$(MLX_DIR) -lmlx -lXext -lX11 -lm" >> Makefile
+fi
 echo "" >> Makefile
 echo "# Path of your headers" >> Makefile
 echo "INC_DIR	=	${INC_DIR}" >> Makefile
@@ -59,8 +65,14 @@ echo "" >> Makefile
 echo "all: \$(NAME)" >> Makefile
 echo "" >> Makefile
 echo "\$(NAME):" >> Makefile
-echo "	make -C \$(LIBFT_DIR)" >> Makefile
-echo "	make -C \$(MLX_DIR)" >> Makefile
+if [ ! -z ${LIBFT_DIR} ]
+then
+	echo "	make -C \$(LIBFT_DIR)" >> Makefile
+fi
+if [ ! -z ${MLX_DIR} ]
+then
+	echo "	make -C \$(MLX_DIR)" >> Makefile
+fi
 if [[ -z ${MLX_DIR} ]] && [[ -z ${LIBFT_DIR} ]]
 then
 	echo "	\$(CC) \$(CFLAGS) \$(SRCS) -o \$(NAME) \$(INC)" >> Makefile
@@ -75,14 +87,25 @@ else
 fi
 echo "" >> Makefile
 echo "clean:" >> Makefile
-echo "	make clean -C \$(LIBFT_DIR)" >> Makefile
-echo "	make clean -C \$(MLX_DIR)" >> Makefile
+if [ ! -z ${LIBFT_DIR} ]
+then
+	echo "	make clean -C \$(LIBFT_DIR)" >> Makefile
+fi
+if [ ! -z ${MLX_DIR} ]
+then
+	echo "	make clean -C \$(MLX_DIR)" >> Makefile
+fi
+echo "	rm -f" >> Makefile
 echo "" >> Makefile
 echo "fclean : clean" >> Makefile
-echo "	make fclean -C \$(LIBFT_DIR)" >> Makefile
+if [ ! -z ${LIBFT_DIR} ]
+then
+	echo "	make fclean -C \$(LIBFT_DIR)" >> Makefile
+fi
 echo "	rm -f \$(NAME)" >> Makefile
 echo "" >> Makefile
 echo "re : fclean all" >> Makefile
 echo "" >> Makefile
 echo ".PHONY: re fclean clean all" >> Makefile
-echo "\nMakefile generated !"
+echo ""
+echo "Makefile generated !"
